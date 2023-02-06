@@ -76,6 +76,7 @@ export default function PlayerLandscape({ movie, displayedName, fsIn }: Props) {
           ref={(p) => (mediaRef = p)}
           onDuration={(time) => getDuration(time)}
           onProgress={(progress) => getProgress(progress)}
+          onReady={fsIn}
         />
       </div>
 

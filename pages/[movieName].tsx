@@ -35,7 +35,7 @@ export default function MoviePlaye() {
   const displayedName = (movieName as string)
     ?.split("-")
     .map((str) => str[0].toUpperCase() + str.slice(1))
-    .join(" ");
+    .join(" "); 
 
   useEffect(() => {
     if (!router) return;
