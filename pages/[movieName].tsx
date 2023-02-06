@@ -60,7 +60,7 @@ export default function MoviePlaye() {
     };
 
     fetchMovie();
-  }, [router]);
+  }, [router, id, media]);
 
   useEffect(() => {
     if (fsHandle.active) {
@@ -136,7 +136,7 @@ export default function MoviePlaye() {
             />
 
             <div className={`${playing ? "opacity-0" : "delay-[3000ms] duration-500"} transition-all w-full h-full flex flex-col justify-center left-0 pl-24 bg-black/60`}>
-              <p className="text-[#d6d6d6]">You're watching</p>
+              <p className="text-[#d6d6d6]">You{"'"}re watching</p>
               <h1 className="text-5xl font-medium mb-6 mt-1 max-w-[45%]">{data?.name || data?.title}</h1>
               <p className="max-w-[50%] text-[#d6d6d6]">{data?.overview}</p>
             </div>
