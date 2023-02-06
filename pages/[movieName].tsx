@@ -1,4 +1,4 @@
-import { Element } from "@/typings";
+import { Element, Movie } from "@/typings";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -23,10 +23,11 @@ export default function MoviePlaye() {
   const router = useRouter();
   let mediaRef: ReactPlayer | null = null;
   const fsHandle = useFullScreenHandle();
+  const [data, setData] = useState<Movie | null>(null)
   const [movie, setMovie] = useState("");
   const [progess, setProgress] = useState("0%");
   const [duration, setDuration] = useState("");
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [volume, setVolume] = useState(1);
   const [controlDisp, setControlDisp] = useState(false);
 
@@ -47,6 +48,8 @@ export default function MoviePlaye() {
           process.env.NEXT_PUBLIC_API_KEY
         }&language=en-US&append_to_response=videos`
       ).then((response) => response.json());
+
+      setData(data)
 
       if (data?.videos) {
         const index = data.videos.results.findIndex(
@@ -99,10 +102,7 @@ export default function MoviePlaye() {
   };
 
   const getProgress = (progress: any) => {
-    // setProgress(`w-[${Math.round(progress.played*100)}%]`)
     setProgress(`${progress.played * 100}%`);
-    console.log(progress);
-    console.log(progress.played);
   };
 
   return (
@@ -114,8 +114,8 @@ export default function MoviePlaye() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative w-screen h-screen max-w-screen max-h-screen ">
-        {isMobile && <PlayerLandscape movie={movie} displayedName={displayedName}/>}
+      <main className="relative w-screen h-screen">
+        {isMobile && <PlayerLandscape movie={movie} displayedName={displayedName} fsIn={() => fsHandle.enter}/>}
         {!isMobile && (
           <>
             <ReactPlayer
@@ -134,6 +134,12 @@ export default function MoviePlaye() {
               onDuration={(time) => getDuration(time)}
               onProgress={(progress) => getProgress(progress)}
             />
+
+            <div className={`${playing ? "opacity-0" : "delay-[3000ms] duration-500"} transition-all w-full h-full flex flex-col justify-center left-0 pl-24 bg-black/60`}>
+              <p className="text-[#d6d6d6]">You're watching</p>
+              <h1 className="text-5xl font-medium mb-6 mt-1 max-w-[45%]">{data?.name || data?.title}</h1>
+              <p className="max-w-[50%] text-[#d6d6d6]">{data?.overview}</p>
+            </div>
 
             <BsArrowLeft
               className={`absolute top-10 left-10 h-10 w-10 cursor-pointer trasnition-all ${

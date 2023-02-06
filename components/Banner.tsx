@@ -2,6 +2,7 @@ import { modalState, movieState } from "@/atoms/modalAtoms";
 import { Movie } from "@/typings";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { useRecoilState } from "recoil";
@@ -16,12 +17,18 @@ export default function Banner({ netflixOriginals }: Props) {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useRecoilState(modalState);
   const [modalMovie, setModalMovie] = useRecoilState(movieState);
+  const router = useRouter()
 
   useEffect(() => {
     setMovie(
       netflixOriginals[Math.floor(Math.random() * netflixOriginals.length)]
     );
   }, [netflixOriginals]);
+
+  const playHandler = () => {
+    const nameTitle = movie?.name || movie?.title
+    router.push(`/${nameTitle?.split(' ').join('-').toLowerCase()}?media=${movie?.media_type === "tv" ? "tv" : "movie"}&id=${movie?.id}`);
+  };
 
   return (
     <div className="flex flex-col justify-end space-y-2 py-16 pb-8 sm:pb-16 h-[55vh] md:space-y-4 lg:h-[70vh] lg:justify-end lg:pb-12">
@@ -43,7 +50,7 @@ export default function Banner({ netflixOriginals }: Props) {
       </p>
 
       <div className="flex space-x-3">
-        <button className="bannerButton bg-white text-black">
+        <button className="bannerButton bg-white text-black" onClick={playHandler}>
           <FaPlay className="h-4 w-4 text-black md:h-7 md:2-7" />
           Play
         </button>

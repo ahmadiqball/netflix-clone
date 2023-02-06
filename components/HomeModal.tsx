@@ -77,6 +77,7 @@ export default function HomeModal() {
   };
 
   const playHandler = () => {
+    setShowModal(false)
     const nameTitle = movie?.name || movie?.title
     router.push(`/${nameTitle?.split(' ').join('-').toLowerCase()}?media=${movie?.media_type === "tv" ? "tv" : "movie"}&id=${movie?.id}`);
   };
