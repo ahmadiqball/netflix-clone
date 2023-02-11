@@ -1,4 +1,4 @@
-# Pokemon Site
+# Netflix Clone
 
 Create a movie streaming site based on metflix.
 Stack:
