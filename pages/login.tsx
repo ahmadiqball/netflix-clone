@@ -60,6 +60,7 @@ export default function Login() {
               type="email"
               placeholder="Email"
               className="input"
+              defaultValue="user@user.com"
               {...register("email", { required: true })}
             />
             {errors.email && (
@@ -73,6 +74,7 @@ export default function Login() {
               type="password"
               placeholder="Password"
               className="input"
+              defaultValue="user123"
               {...register("password", { required: true })}
             />
             {errors.password && (
